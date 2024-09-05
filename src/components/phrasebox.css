@@ -1,0 +1,88 @@
+
+
+
+.mnemonicHeader{
+  display: flex;
+  width: 90%;
+  flex-direction: row;
+  padding:0px 25px 0px 25px;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 1s ease-in-out; 
+
+}
+
+.mnemonicHeader span svg{
+  font-size: 90px;
+}
+
+.copyIcon{
+  margin-top: 9px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  transition: all 1s ease-in-out; 
+}
+
+.copyIcon svg{
+  font-size: 20px;
+   
+}
+
+
+.seedDisplay{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items:center;
+    margin-top: 30px;
+    padding: 20px;
+    height: fit-content;
+    width: 80%;
+    border-radius: 20px;
+    transition: all 1s ease-in-out; 
+    background: linear-gradient(165deg, #494949a3, #44444474);
+  
+  }
+  
+  .seedDisplay p{
+  
+    font-size: 40px;
+  }
+  
+  .seedDisplay-grid{
+
+    padding-top: 4px;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    overflow: hidden;
+    transition: all 1s ease-in-out;
+    opacity: 1;
+    height: auto;
+  }
+
+  .seedDisplay-grid.hide {
+    opacity: 0;
+    height: 0; 
+  }
+  
+  .seedDisplay-grid .seedDisplay-grid-item{
+    text-align: center;
+    height: max-content;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) ;
+    /* width: 80px; */
+    padding: 6px;
+    font-size: large;
+    border-radius: 10px;
+    border: 0.5px solid rgb(255, 255, 255);
+    /* background-color: azure; */
+    /* color: black; */
+  }
+  
+  .seedDisplay-grid .seedDisplay-grid-item:hover{
+    background-color: rgba(78, 73, 73, 0.374); 
+    transform: translateY(-2px);
+
+  }

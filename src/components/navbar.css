@@ -1,0 +1,16 @@
+nav{
+    display: flex;
+
+    justify-content: flex-start;
+    height: max-content;
+    width: 100%;
+    border-bottom: 2px solid black;
+    padding: 25px 0px 25px 25px;
+}
+
+nav span {
+    padding-left: 30px;
+    font-weight: 700;
+    font-size: 35px;
+    color: aliceblue;
+}
