@@ -2,25 +2,43 @@ import React, { useState } from 'react';
 import '../components/phrasebox.css';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { BiCopy } from 'react-icons/bi'; // Importing an icon for the copy button
+import { BiCopy } from 'react-icons/bi';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 function PhraseBox({ seedArray }) {
   const [hidden, setHidden] = useState(false);
-  const [copySuccess, setCopySuccess] = useState('');
+  const [open, setOpen] = useState(false);
+
 
   const toggleSeedVisibility = () => {
     setHidden(!hidden);
   };
 
-  const copyToClipboard = () => {
-    const textToCopy = seedArray.join(' '); // Combine the seed array into a single string
-    navigator.clipboard.writeText(textToCopy).then(() => {
-      setCopySuccess('Copied!');
-      setTimeout(() => setCopySuccess(''), 2000); // Clear the success message after 2 seconds
-    }, (err) => {
-      setCopySuccess('Failed to copy!');
-    });
-  };
+	const handleClick = () => {
+	  setOpen(true);
+	};
+  
+	const handleClose = (event, reason) => {
+	  if (reason === 'clickaway') {
+		return;
+	  }
+  
+	  setOpen(false);
+	};
+
+	const copyToClipboard = (text) => {
+    if(text==""){
+			return;
+		}
+		navigator.clipboard.writeText(text).then(
+			() => {
+				handleClick();
+				setTimeout(() => setCopySuccess(""), 2000);
+			},
+
+		);
+	};
 
   return (
     <>
@@ -40,10 +58,18 @@ function PhraseBox({ seedArray }) {
             ))}
 			<div className="copyIcon">
 			<BiCopy onClick={copyToClipboard} title="Copy to Clipboard" />
-			{copySuccess && <div className="copySuccess">{copySuccess}</div>}
 			</div>
           </div>
-       
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Copied!
+        </Alert>
+      </Snackbar>
         
       </div>
     </>

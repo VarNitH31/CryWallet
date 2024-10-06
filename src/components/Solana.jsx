@@ -9,30 +9,43 @@ import { useDispatch } from "react-redux";
 import { addSol } from "../redux/Solana/solSlicer";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 function Solana({ mnemonic }) {
 	const dispatch = useDispatch();
-	const [solAddress, setSolAddress] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [curPublicKey, setCurPublicKey] = useState("");
 	const [curPrivateKey, setCurPrivateKey] = useState("");
-	const [copySuccess, setCopySuccess] = useState("");
 	const [solVisible, setSolVisible] = useState(false);
 	const handleSolVisible = () => {
 		setSolVisible(!solVisible);
 	};
 
-	const copyToClipboard = (text) => {
-		navigator.clipboard.writeText(text).then(
-			() => {
-				setCopySuccess("Copied!");
-				setTimeout(() => setCopySuccess(""), 2000);
-			},
-			() => {
-				setCopySuccess("Failed to copy!");
-			}
-		);
-	};
+	const [open, setOpen] = useState(false);
+	const handleClick = () => {
+		setOpen(true);
+	  };
+	
+	  const handleClose = (event, reason) => {
+		if (reason === 'clickaway') {
+		  return;
+		}
+	
+		setOpen(false);
+	  };
+  
+	  const copyToClipboard = (text) => {
+		if(text==""){
+			return;
+		}
+		  navigator.clipboard.writeText(text).then(
+			  () => {
+				  handleClick();
+				  setTimeout(() => setCopySuccess(""), 2000);
+			  },
+		  );
+	  };
 
 	const createSolana = async () => {
 		if (mnemonic) {
@@ -85,9 +98,18 @@ function Solana({ mnemonic }) {
 							/>
 						</div>
 					</div>
-					{copySuccess && <div className="copySuccess">{copySuccess}</div>}
 				</div>
 			</div>
+			<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Copied!
+        </Alert>
+      </Snackbar>
 		</div>
 	);
 }

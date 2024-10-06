@@ -8,6 +8,9 @@ import { useDispatch } from "react-redux";
 import { addEth } from "../redux/Etherium/ethSlicer";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 
 function Etherium({ mnemonic }) {
 	const dispatch = useDispatch();
@@ -16,23 +19,36 @@ function Etherium({ mnemonic }) {
 	const [curPublicKey, setCurPublicKey] = useState("");
 	const [curPrivateKey, setCurPrivateKey] = useState("");
 	const [ethVisible, setEthVisible] = useState(false);
-    const [copySuccess, setCopySuccess] = useState('');
 
 	const handleEthVisible = () => {
 		setEthVisible(!ethVisible);
 	};
 
-	const copyToClipboard = (text) => {
-		navigator.clipboard.writeText(text).then(
-			() => {
-				setCopySuccess("Copied!");
-				setTimeout(() => setCopySuccess(""), 2000);
-			},
-			() => {
-				setCopySuccess("Failed to copy!");
-			}
-		);
-	};
+	const [open, setOpen] = useState(false);
+	const handleClick = () => {
+		setOpen(true);
+	  };
+	
+	  const handleClose = (event, reason) => {
+		if (reason === 'clickaway') {
+		  return;
+		}
+	
+		setOpen(false);
+	  };
+  
+	  const copyToClipboard = (text) => {
+		if(text==""){
+			return;
+		}
+		  navigator.clipboard.writeText(text).then(
+			  () => {
+				  handleClick();
+				  setTimeout(() => setCopySuccess(""), 2000);
+			  },
+
+		  );
+	  };
 
 	const createEtherium = async () => {
 		if (mnemonic) {
@@ -80,9 +96,18 @@ function Etherium({ mnemonic }) {
 							/>
 						</div>
 					</div>
-                    {copySuccess && <div className="copySuccess">{copySuccess}</div>}
 				</div>
 			</div>
+			<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Copied!
+        </Alert>
+      </Snackbar>
 		</div>
 	);
 }

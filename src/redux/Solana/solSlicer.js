@@ -9,14 +9,12 @@ export const solSlice=createSlice({
     initialState:initialState,
     reducers:{
         addSol:(state,action)=>{
-
             state.value.push(action.payload);
         },
 
         removeSol:(state,action)=>{
-            const index=state.value.findIndex(wallet=> wallet==action.payload)
+            const index=state.value.findIndex(wallet=> wallet.address==action.payload)
             state.value.splice(index,1);
-
         }
 
     }
